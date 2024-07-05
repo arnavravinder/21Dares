@@ -1,72 +1,81 @@
-body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-}
+/* auth.css */
 
-header {
-    background-color: #66A80F;
-    color: white;
-    padding: 1em 0;
-    text-align: center;
-}
-
+/* Additional styles specific to authentication */
 main {
     max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background-color: #1f1f1f; /* Dark background color */
+    border-radius: 12px; /* Rounded corners for the main container */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
-    margin-bottom: 20px;
+section {
+    background-color: #1f1f1f; /* Dark background color for each section */
+    padding: 1.5rem; /* Add padding to sections for spacing */
+    border-radius: 8px; /* Rounded corners for sections */
+    margin-bottom: 1rem; /* Space between sections */
 }
 
 form {
     display: flex;
     flex-direction: column;
+    background-color: #333; /* Darker background color for the form inside sections */
+    padding: 2rem; /* Add padding inside the form for spacing */
+    border-radius: 8px; /* Rounded corners for forms */
 }
 
-label {
-    margin-bottom: 5px;
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #fff; /* Text color for headings */
 }
 
-input {
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+input[type="email"],
+input[type="password"],
+button[type="submit"],
+button[type="button"] {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 12px; /* More curved input fields and buttons */
+    border: 1px solid #555; /* Darker border color */
+    background-color: #444; /* Input and button background color */
+    color: #fff; /* Text color for inputs and buttons */
 }
 
-button {
-    background-color: #E2201C;
-    color: white;
+button[type="submit"],
+button[type="button"] {
+    background-color: #66A80F;
+    color: #fff;
     border: none;
-    padding: 10px;
     cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease-in-out;
+    transition: background-color 0.3s ease; /* Smooth transition for button hover */
 }
 
-button:hover {
-    background-color: #F6B042;
+button[type="submit"]:hover,
+button[type="button"]:hover {
+    background-color: #4c8037;
+}
+
+p {
+    margin-top: 0.5rem;
+    color: #ccc; /* Text color for paragraphs */
+}
+
+#error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
 }
 
 a {
-    color: #66A80F;
-    text-decoration: none;
+    color: #66A80F; /* Link color */
+    text-decoration: none; /* Remove underline */
+    cursor: pointer;
+    transition: color 0.3s ease; /* Smooth transition for link hover */
 }
 
 a:hover {
-    text-decoration: underline;
-}
-
-@media (max-width: 768px) {
-    main {
-        margin: 30px auto;
-        padding: 15px;
-    }
+    color: #4c8037; /* Darker color on hover */
 }

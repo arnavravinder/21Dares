@@ -5,68 +5,132 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>21Dares</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
 </head>
 <body>
+    <div class="navigation-bar">
+        <ul class="navigate-items">
+            <li><a href="#" class="navigation-link">Home</a></li>
+            <li><a href="#" class="navigation-link">Challenges</a></li>
+            <li><a href="#" class="navigation-link">Leaderboard</a></li>
+            <li><a href="#" class="navigation-link">Profile</a></li>
+            <li><a href="#" class="navigation-link" id="theme-toggle">🌞</a></li>
+        </ul>
+    </div>
+
     <header>
-        <h1>Welcome to 21Dares</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="auth.html">Login/Sign Up</a></li>
-            </ul>
-        </nav>
     </header>
-    <main>
-        <section id="intro" data-aos="fade-up">
-            <h2>Join the daily challenge fun!</h2>
-            <p>Participate in daily challenges, track your progress, and share your achievements with friends.</p>
-            <button onclick="location.href='auth.html'">Get Started</button>
-        </section>
-        <section id="how-it-works" data-aos="fade-up">
-            <h2>How It Works</h2>
-            <div class="step">
-                <div class="step-number" data-tilt>1</div>
-                <p>Sign up and create your profile</p>
-            </div>
-            <div class="step">
-                <div class="step-number" data-tilt>2</div>
-                <p>Accept daily challenges</p>
-            </div>
-            <div class="step">
-                <div class="step-number" data-tilt>3</div>
-                <p>Complete and track your progress</p>
-            </div>
-        </section>
-        <section id="features" data-aos="fade-up">
-            <h2>Features</h2>
-            <ul>
-                <li>User Authentication</li>
-                <li>Daily Challenges</li>
-                <li>Leaderboards</li>
-                <li>Social Features</li>
-            </ul>
-        </section>
-        <section id="testimonials" data-aos="fade-up">
-            <h2>Testimonials</h2>
-            <blockquote data-tilt>
-                <p>"21Dares has made my daily routine more exciting and productive!"</p>
-                <cite>- Happy User</cite>
-            </blockquote>
-            <blockquote data-tilt>
-                <p>"I love challenging my friends and seeing who can complete the most dares."</p>
-                <cite>- Another Happy User</cite>
-            </blockquote>
-        </section>
+    <section class="intro">
+        <h2 class="intro-heading">Welcome to 21Dares</h2>
+        <p class="intro-para">Challenge yourself daily and achieve greatness!</p>
+    </section>
+
+    <main class="content">
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 1: Meditate for 10 Minutes</h3>
+            <p>Spend time focusing on your breath and clearing your mind. Meditation can reduce stress and improve concentration.</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 2: Read a Chapter of a Book</h3>
+            <p>Take some time to read and expand your knowledge or explore a fictional world.</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 3: Try a New Workout Routine</h3>
+            <p>Challenge yourself physically with a new workout routine or exercise regimen.</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 4: Write a Thank You Note</h3>
+            <p>Express gratitude by writing a thank you note to someone who has made a positive impact on your life.</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 5: Take a Nature Walk</h3>
+            <p>Connect with nature by taking a leisurely walk outdoors. It's refreshing and promotes mental well-being.</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 6: Learn a New Skill</h3>
+            <p>Take the challenge to learn something new today. It could be a language, a musical instrument, or a coding skill!</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 7: Write a Journal Entry</h3>
+            <p>Reflect on your day by writing a journal entry. It's a great way to organize your thoughts and emotions.</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 8: Try a New Recipe</h3>
+            <p>Challenge yourself to cook a new recipe. It's fun and rewarding to explore new flavors!</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 9: Practice Gratitude</h3>
+            <p>Take a moment to list things you're grateful for. Practicing gratitude can improve your overall well-being.</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 10: Digital Detox</h3>
+            <p>Disconnect from digital devices for a few hours. It's refreshing to take a break from screens!</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 11: Volunteer Your Time</h3>
+            <p>Find an opportunity to volunteer and give back to your community. Your help can make a difference.</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 12: Learn a New Dance Move</h3>
+            <p>Challenge yourself to learn a new dance move or routine. It's a fun way to stay active and express yourself.</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 13: Start a Creative Project</h3>
+            <p>Embark on a new creative project. Whether it's painting, writing, or crafting, let your imagination run wild!</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 14: Practice Mindfulness</h3>
+            <p>Take a moment to practice mindfulness. Focus on the present moment and cultivate a sense of calm and awareness.</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 15: Have a Tech-Free Evening</h3>
+            <p>Set aside an evening without technology. Spend quality time with loved ones or engage in offline activities.</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 16: Explore a New Genre of Music</h3>
+            <p>Listen to music from a genre you've never explored before. Discover new artists and broaden your musical horizons.</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 17: Organize Your Space</h3>
+            <p>Declutter and organize your living or work space. A tidy environment can boost productivity and reduce stress.</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 18: Try a New Hobby</h3>
+            <p>Experiment with a new hobby or activity that piques your interest. You might discover a new passion!</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 19: Connect with a Friend</h3>
+            <p>Reach out to a friend you haven't spoken to in a while. Catch up and strengthen your social connections.</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 20: Write a Personal Manifesto</h3>
+            <p>Reflect on your values, beliefs, and goals. Write a personal manifesto to guide your actions and decisions.</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
+        <div class="card challenge-card" data-aos="fade-up">
+            <h3>Day 21: Reflect and Celebrate</h3>
+            <p>Take time to reflect on your journey through the challenges. Celebrate your accomplishments and growth!</p>
+            <button class="card-button">Accept Challenge</button>
+        </div>
     </main>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <script>
-        AOS.init();
-        VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
-            max: 25,
-            speed: 400
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

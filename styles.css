@@ -1,161 +1,233 @@
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-}
-
-header {
-    background-color: #66A80F;
+    padding: 10px 20px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: #1f232e;
     color: white;
-    padding: 1em 0;
-    text-align: center;
 }
 
-nav ul {
-    list-style-type: none;
+body.light-mode {
+    background-color: #f5f5f5;
+    color: black;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #1f232e;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #292E3D;
+    border-radius: 10px;
+}
+
+body.light-mode ::-webkit-scrollbar-track {
+    background-color: #f5f5f5;
+}
+
+body.light-mode ::-webkit-scrollbar-thumb {
+    background-color: #d3d3d3;
+}
+
+.navigation {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    color: white;
+    z-index: 100;
+    background: #1f232e;
+}
+
+.navigation-heading h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.navigation-bar {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.navigate-items {
+    list-style: none;
     padding: 0;
+    margin: 0;
+    display: flex;
 }
 
-nav ul li {
-    display: inline;
-    margin: 0 10px;
-}
-
-nav ul li a {
+.navigation-link {
     color: white;
     text-decoration: none;
+    padding: 10px 15px;
+    transition: color 0.3s;
 }
 
-#intro {
+.navigation-link:hover {
+    color: #f6b042;
+}
+
+body.light-mode .navigation {
+    background: #f5f5f5;
+    color: black;
+}
+
+body.light-mode .navigation-link {
+    color: black;
+}
+
+body.light-mode .navigation-link:hover {
+    color: #e2201c;
+}
+
+.intro {
+    padding: 100px 20px 20px;
     text-align: center;
-    margin-top: 50px;
+}
+
+.intro-heading {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.intro-para {
+    font-size: 18px;
+    color: #f6b042;
+}
+
+body.light-mode .intro-para {
+    color: #66a80f;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
     padding: 20px;
-    background: white;
+}
+
+.card {
+    background: #292E3D;
+    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transform: translateY(0);
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s;
 }
 
-#intro:hover {
+.card:hover {
     transform: translateY(-10px);
 }
 
-button {
-    background-color: #E2201C;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease-in-out;
+.card-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #66a80f;
 }
 
-button:hover {
-    background-color: #F6B042;
-}
-
-#how-it-works {
-    padding: 20px;
-    background: white;
-    margin: 50px 0;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.step {
-    display: flex;
-    align-items: center;
+.card-description {
+    font-size: 16px;
     margin-bottom: 20px;
 }
 
-.step-number {
-    width: 50px;
-    height: 50px;
-    background-color: #66A80F;
+.card-button {
+    padding: 10px 20px;
+    background-color: #66a80f;
+    border: none;
+    border-radius: 4px;
     color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.card-button:hover {
+    background-color: #558a0c;
+}
+
+body.light-mode .card {
+    background: #ffffff;
+    color: black;
+}
+
+body.light-mode .card-title {
+    color: #e2201c;
+}
+
+body.light-mode .card-button {
+    background-color: #e2201c;
+}
+
+body.light-mode .card-button:hover {
+    background-color: #cc1c18;
+}
+
+.content {
+    margin-top: 20px;
+}
+
+.challenge-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-radius: 50%;
-    margin-right: 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.challenge-card:hover .card-overlay {
+    opacity: 1;
+}
+
+.card-overlay h3 {
     font-size: 24px;
-    cursor: pointer;
-}
-
-#features {
-    padding: 20px;
-    background: white;
-    margin: 50px 0;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-#features ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-#features li {
-    padding: 10px;
-    background-color: #f4f4f4;
+    color: white;
     margin-bottom: 10px;
-    border-radius: 4px;
 }
 
-#testimonials {
-    padding: 20px;
-    background: white;
-    margin: 50px 0;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.card-overlay p {
+    color: #f6b042;
+    font-size: 16px;
 }
 
-blockquote {
-    background: #f4f4f4;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-
-blockquote p {
-    margin: 0;
-}
-
-blockquote cite {
-    display: block;
+.card-overlay button {
     margin-top: 10px;
-    font-style: normal;
-    color: #666;
+    padding: 8px 20px;
+    background-color: #e2201c;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.card-overlay button:hover {
+    background-color: #cc1c18;
 }
 
 @media (max-width: 768px) {
-    header {
-        padding: 0.5em 0;
-    }
-
-    nav ul li {
-        display: block;
-        margin: 5px 0;
-    }
-
-    #intro {
-        margin-top: 30px;
-    }
-
-    button {
-        width: 100%;
-        padding: 12px 0;
-    }
-
-    .step {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .step-number {
-        margin-bottom: 10px;
+    .content {
+        grid-template-columns: 1fr;
     }
 }
