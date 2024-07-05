@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>21Dares</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
 </head>
 <body>
     <header>
@@ -17,12 +19,54 @@
         </nav>
     </header>
     <main>
-        <section id="intro">
+        <section id="intro" data-aos="fade-up">
             <h2>Join the daily challenge fun!</h2>
             <p>Participate in daily challenges, track your progress, and share your achievements with friends.</p>
             <button onclick="location.href='auth.html'">Get Started</button>
         </section>
+        <section id="how-it-works" data-aos="fade-up">
+            <h2>How It Works</h2>
+            <div class="step">
+                <div class="step-number" data-tilt>1</div>
+                <p>Sign up and create your profile</p>
+            </div>
+            <div class="step">
+                <div class="step-number" data-tilt>2</div>
+                <p>Accept daily challenges</p>
+            </div>
+            <div class="step">
+                <div class="step-number" data-tilt>3</div>
+                <p>Complete and track your progress</p>
+            </div>
+        </section>
+        <section id="features" data-aos="fade-up">
+            <h2>Features</h2>
+            <ul>
+                <li>User Authentication</li>
+                <li>Daily Challenges</li>
+                <li>Leaderboards</li>
+                <li>Social Features</li>
+            </ul>
+        </section>
+        <section id="testimonials" data-aos="fade-up">
+            <h2>Testimonials</h2>
+            <blockquote data-tilt>
+                <p>"21Dares has made my daily routine more exciting and productive!"</p>
+                <cite>- Happy User</cite>
+            </blockquote>
+            <blockquote data-tilt>
+                <p>"I love challenging my friends and seeing who can complete the most dares."</p>
+                <cite>- Another Happy User</cite>
+            </blockquote>
+        </section>
     </main>
-    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init();
+        VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+            max: 25,
+            speed: 400
+        });
+    </script>
 </body>
 </html>

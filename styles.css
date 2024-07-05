@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
@@ -30,6 +30,16 @@ nav ul li a {
 #intro {
     text-align: center;
     margin-top: 50px;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+#intro:hover {
+    transform: translateY(-10px);
 }
 
 button {
@@ -38,8 +48,114 @@ button {
     border: none;
     padding: 10px 20px;
     cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease-in-out;
 }
 
 button:hover {
     background-color: #F6B042;
+}
+
+#how-it-works {
+    padding: 20px;
+    background: white;
+    margin: 50px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    background-color: #66A80F;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin-right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#features {
+    padding: 20px;
+    background: white;
+    margin: 50px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#features ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#features li {
+    padding: 10px;
+    background-color: #f4f4f4;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+#testimonials {
+    padding: 20px;
+    background: white;
+    margin: 50px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+blockquote {
+    background: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+blockquote p {
+    margin: 0;
+}
+
+blockquote cite {
+    display: block;
+    margin-top: 10px;
+    font-style: normal;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 0.5em 0;
+    }
+
+    nav ul li {
+        display: block;
+        margin: 5px 0;
+    }
+
+    #intro {
+        margin-top: 30px;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px 0;
+    }
+
+    .step {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .step-number {
+        margin-bottom: 10px;
+    }
 }

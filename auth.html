@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>21Dares - Authentication</title>
     <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 </head>
 <body>
     <header>
         <h1>21Dares</h1>
     </header>
     <main>
-        <section id="auth">
+        <section id="auth" data-aos="fade-up">
             <h2>Login</h2>
             <form id="login-form">
                 <label for="email">Email:</label>
@@ -23,7 +24,7 @@
             <p>Don't have an account? <a href="#" onclick="showSignUp()">Sign Up</a></p>
             <p><a href="#" onclick="showResetPassword()">Forgot Password?</a></p>
         </section>
-        <section id="signup" style="display: none;">
+        <section id="signup" style="display: none;" data-aos="fade-up">
             <h2>Sign Up</h2>
             <form id="signup-form">
                 <label for="new-email">Email:</label>
@@ -34,7 +35,7 @@
             </form>
             <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
         </section>
-        <section id="reset-password" style="display: none;">
+        <section id="reset-password" style="display: none;" data-aos="fade-up">
             <h2>Reset Password</h2>
             <form id="reset-password-form">
                 <label for="reset-email">Email:</label>
@@ -45,5 +46,9 @@
         </section>
     </main>
     <script src="auth.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
 </body>
 </html>
