@@ -81,20 +81,34 @@ h2 {
     border-radius: 8px;
 }
 
-#preferences-form {
+#preferences-form,
+#add-friend-form,
+#send-message-form {
     display: flex;
     flex-direction: column;
 }
 
-#preferences-form label {
+#preferences-form label,
+#add-friend-form label,
+#send-message-form label {
     margin-bottom: 0.5rem;
 }
 
-#preferences-form input[type="checkbox"] {
+#preferences-form input[type="checkbox"],
+#add-friend-form input[type="email"],
+#send-message-form input[type="text"] {
     margin-bottom: 1rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #2e2e2e;
+    color: #fff;
 }
 
-#preferences-form button[type="submit"] {
+#preferences-form button[type="submit"],
+#add-friend-form button[type="submit"],
+#send-message-form button[type="submit"] {
     background-color: #66A80F;
     color: #fff;
     border: none;
@@ -103,6 +117,46 @@ h2 {
     cursor: pointer;
 }
 
-#preferences-form button[type="submit"]:hover {
+#preferences-form button[type="submit"]:hover,
+#add-friend-form button[type="submit"]:hover,
+#send-message-form button[type="submit"]:hover {
     background-color: #4c8037;
+}
+
+#friend-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+#friend-container .friend {
+    padding: 0.5rem;
+    background-color: #2e2e2e;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#message-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0.5rem;
+    background-color: #2e2e2e;
+}
+
+#message-container .message {
+    padding: 0.5rem;
+    background-color: #3e3e3e;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

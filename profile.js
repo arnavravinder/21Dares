@@ -20,6 +20,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const challengeList = document.getElementById('challenge-list');
     const badgeContainer = document.getElementById('badge-container');
     const preferencesForm = document.getElementById('preferences-form');
+    const friendContainer = document.getElementById('friend-container');
+    const addFriendForm = document.getElementById('add-friend-form');
+    const sendMessageForm = document.getElementById('send-message-form');
+    const messageContainer = document.getElementById('message-container');
 
     auth.onAuthStateChanged(user => {
         if (user) {
@@ -30,52 +34,101 @@ document.addEventListener('DOMContentLoaded', function () {
             loadWeeklySummary(user.uid);
             loadBadges(user.uid);
             loadPreferences(user.uid);
+            loadFriends(user.uid);
+            loadMessages(user.uid);
         } else {
-            window.location.href = "auth.html";
+            window.location.href = 'auth.html';
         }
     });
 
     logoutButton.addEventListener('click', function () {
         auth.signOut().then(() => {
-            window.location.href = "auth.html";
+            window.location.href = 'auth.html';
         }).catch(error => {
-            console.error('Logout error:', error);
+            console.error('Error signing out:', error);
         });
     });
 
-    function loadChallenges(userId) {
-        db.collection('challenges').doc(userId).get().then(doc => {
-            if (doc.exists) {
-                const challenges = doc.data().challenges;
-                challenges.forEach((challenge, index) => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `
-                        <span>${index + 1}. ${challenge.name}</span>
-                        <input type="checkbox" ${challenge.completed ? 'checked' : ''} data-index="${index}">
-                    `;
-                    li.querySelector('input[type="checkbox"]').addEventListener('change', function () {
-                        updateChallengeStatus(userId, index, this.checked);
-                    });
-                    challengeList.appendChild(li);
-                });
-            } else {
-                console.log('No challenge data found');
-            }
+    addFriendForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const friendEmail = addFriendForm['friend-email'].value;
+        addFriend(auth.currentUser.uid, friendEmail);
+    });
+
+    sendMessageForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const messageText = sendMessageForm['message-text'].value;
+        sendMessage(auth.currentUser.uid, messageText);
+    });
+
+    function loadFriends(userId) {
+        db.collection('friends').doc(userId).collection('list').get().then(snapshot => {
+            snapshot.forEach(doc => {
+                const friend = doc.data();
+                const friendElement = document.createElement('div');
+                friendElement.classList.add('friend');
+                friendElement.textContent = friend.email;
+                friendContainer.appendChild(friendElement);
+            });
         }).catch(error => {
-            console.error('Error fetching challenge data:', error);
+            console.error('Error fetching friends:', error);
         });
     }
 
-    function updateChallengeStatus(userId, index, status) {
-        db.collection('challenges').doc(userId).update({
-            [`challenges.${index}.completed`]: status
-        }).then(() => {
-            console.log('Challenge status updated');
-            if (status) {
-                updateStreak(userId);
+    function addFriend(userId, friendEmail) {
+        db.collection('users').where('email', '==', friendEmail).get().then(snapshot => {
+            if (!snapshot.empty) {
+                const friendId = snapshot.docs[0].id;
+                db.collection('friends').doc(userId).collection('list').doc(friendId).set({ email: friendEmail }).then(() => {
+                    const friendElement = document.createElement('div');
+                    friendElement.classList.add('friend');
+                    friendElement.textContent = friendEmail;
+                    friendContainer.appendChild(friendElement);
+                    addFriendForm.reset();
+                }).catch(error => {
+                    console.error('Error adding friend:', error);
+                });
+            } else {
+                console.error('No user found with that email');
             }
         }).catch(error => {
-            console.error('Error updating challenge status:', error);
+            console.error('Error finding user:', error);
+        });
+    }
+
+    function loadMessages(userId) {
+        db.collection('messages').doc(userId).collection('chats').orderBy('timestamp').onSnapshot(snapshot => {
+            messageContainer.innerHTML = '';
+            snapshot.forEach(doc => {
+                const message = doc.data();
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.textContent = message.text;
+                messageContainer.appendChild(messageElement);
+            });
+        });
+    }
+
+    function sendMessage(userId, messageText) {
+        const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+        const messageData = { text: messageText, timestamp: timestamp };
+        db.collection('messages').doc(userId).collection('chats').add(messageData).then(() => {
+            sendMessageForm.reset();
+        }).catch(error => {
+            console.error('Error sending message:', error);
+        });
+    }
+
+    function loadChallenges(userId) {
+        db.collection('challenges').doc(userId).collection('list').get().then(snapshot => {
+            snapshot.forEach(doc => {
+                const challenge = doc.data();
+                const challengeItem = document.createElement('li');
+                challengeItem.textContent = challenge.name;
+                challengeList.appendChild(challengeItem);
+            });
+        }).catch(error => {
+            console.error('Error fetching challenges:', error);
         });
     }
 
@@ -83,40 +136,11 @@ document.addEventListener('DOMContentLoaded', function () {
         db.collection('streaks').doc(userId).get().then(doc => {
             if (doc.exists) {
                 const streakData = doc.data();
-                dailyStreak.textContent = streakData.streak;
+                dailyStreak.textContent = streakData.days;
             } else {
-                dailyStreak.textContent = '0';
-            }
-        }).catch(error => {
-            console.error('Error fetching streak data:', error);
-        });
-    }
-
-    function updateStreak(userId) {
-        db.collection('streaks').doc(userId).get().then(doc => {
-            if (doc.exists) {
-                const streakData = doc.data();
-                const lastCompleted = streakData.lastCompleted.toDate();
-                const now = new Date();
-
-                if (now.getDate() !== lastCompleted.getDate() || now.getMonth() !== lastCompleted.getMonth() || now.getFullYear() !== lastCompleted.getFullYear()) {
-                    streakData.streak += 1;
-                    streakData.lastCompleted = firebase.firestore.Timestamp.fromDate(now);
-                }
-
-                db.collection('streaks').doc(userId).set(streakData).then(() => {
-                    dailyStreak.textContent = streakData.streak;
-                    console.log('Streak updated');
-                });
-            } else {
-                const now = new Date();
-                const streakData = {
-                    streak: 1,
-                    lastCompleted: firebase.firestore.Timestamp.fromDate(now)
-                };
+                const streakData = { days: 1, lastCompleted: firebase.firestore.FieldValue.serverTimestamp() };
                 db.collection('streaks').doc(userId).set(streakData).then(() => {
                     dailyStreak.textContent = '1';
-                    console.log('Streak started');
                 });
             }
         }).catch(error => {
@@ -158,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function () {
     preferencesForm.addEventListener('submit', function (e) {
         e.preventDefault();
         const notification = preferencesForm.notification.checked;
-        const darkMode = preferencesForm.dark-mode.checked;
+        const darkMode = preferencesForm['dark-mode'].checked;
         savePreferences(auth.currentUser.uid, { notification, darkMode });
     });
 
@@ -167,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (doc.exists) {
                 const preferences = doc.data();
                 preferencesForm.notification.checked = preferences.notification;
-                preferencesForm.dark-mode.checked = preferences.darkMode;
+                preferencesForm['dark-mode'].checked = preferences.darkMode;
             } else {
                 console.log('No preferences data found');
             }
