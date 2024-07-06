@@ -45,3 +45,26 @@ h2 {
 #logout-button:hover {
     background-color: #4c8037;
 }
+
+#challenge-list {
+    list-style: none;
+    padding: 0;
+}
+
+#challenge-list li {
+    padding: 0.5rem;
+    background-color: #2e2e2e;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#challenge-list li span {
+    font-size: 1rem;
+}
+
+#challenge-list li input[type="checkbox"] {
+    margin-left: 1rem;
+}
