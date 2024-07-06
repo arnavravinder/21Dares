@@ -18,11 +18,27 @@
             <div id="user-info">
                 <p><strong>Email:</strong> <span id="user-email"></span></p>
                 <p><strong>Status:</strong> <span id="user-status"></span></p>
+                <p><strong>Daily Streak:</strong> <span id="daily-streak"></span></p>
+                <p><strong>Weekly Summary:</strong> <span id="weekly-summary"></span></p>
             </div>
+        </section>
+        <section id="badges" data-aos="fade-up">
+            <h2>Badges</h2>
+            <div id="badge-container"></div>
         </section>
         <section id="progress" data-aos="fade-up">
             <h2>Challenge Progress</h2>
             <ul id="challenge-list"></ul>
+        </section>
+        <section id="preferences" data-aos="fade-up">
+            <h2>User Preferences</h2>
+            <form id="preferences-form">
+                <label for="notification">Enable Notifications:</label>
+                <input type="checkbox" id="notification" name="notification">
+                <label for="dark-mode">Enable Dark Mode:</label>
+                <input type="checkbox" id="dark-mode" name="dark-mode">
+                <button type="submit">Save Preferences</button>
+            </form>
         </section>
     </main>
     <script src="profile.js"></script>

@@ -19,3 +19,8 @@ service cloud.firestore {
     ]
   }
   
+  {
+    "streak": 5,
+    "lastCompleted": "2024-07-01T00:00:00Z"
+  }
+  

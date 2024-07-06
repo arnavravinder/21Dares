@@ -14,14 +14,22 @@ const db = firebase.firestore();
 document.addEventListener('DOMContentLoaded', function () {
     const userEmail = document.getElementById('user-email');
     const userStatus = document.getElementById('user-status');
+    const dailyStreak = document.getElementById('daily-streak');
+    const weeklySummary = document.getElementById('weekly-summary');
     const logoutButton = document.getElementById('logout-button');
     const challengeList = document.getElementById('challenge-list');
+    const badgeContainer = document.getElementById('badge-container');
+    const preferencesForm = document.getElementById('preferences-form');
 
     auth.onAuthStateChanged(user => {
         if (user) {
             userEmail.textContent = user.email;
             userStatus.textContent = "Logged In";
             loadChallenges(user.uid);
+            loadStreak(user.uid);
+            loadWeeklySummary(user.uid);
+            loadBadges(user.uid);
+            loadPreferences(user.uid);
         } else {
             window.location.href = "auth.html";
         }
@@ -63,8 +71,116 @@ document.addEventListener('DOMContentLoaded', function () {
             [`challenges.${index}.completed`]: status
         }).then(() => {
             console.log('Challenge status updated');
+            if (status) {
+                updateStreak(userId);
+            }
         }).catch(error => {
             console.error('Error updating challenge status:', error);
+        });
+    }
+
+    function loadStreak(userId) {
+        db.collection('streaks').doc(userId).get().then(doc => {
+            if (doc.exists) {
+                const streakData = doc.data();
+                dailyStreak.textContent = streakData.streak;
+            } else {
+                dailyStreak.textContent = '0';
+            }
+        }).catch(error => {
+            console.error('Error fetching streak data:', error);
+        });
+    }
+
+    function updateStreak(userId) {
+        db.collection('streaks').doc(userId).get().then(doc => {
+            if (doc.exists) {
+                const streakData = doc.data();
+                const lastCompleted = streakData.lastCompleted.toDate();
+                const now = new Date();
+
+                if (now.getDate() !== lastCompleted.getDate() || now.getMonth() !== lastCompleted.getMonth() || now.getFullYear() !== lastCompleted.getFullYear()) {
+                    streakData.streak += 1;
+                    streakData.lastCompleted = firebase.firestore.Timestamp.fromDate(now);
+                }
+
+                db.collection('streaks').doc(userId).set(streakData).then(() => {
+                    dailyStreak.textContent = streakData.streak;
+                    console.log('Streak updated');
+                });
+            } else {
+                const now = new Date();
+                const streakData = {
+                    streak: 1,
+                    lastCompleted: firebase.firestore.Timestamp.fromDate(now)
+                };
+                db.collection('streaks').doc(userId).set(streakData).then(() => {
+                    dailyStreak.textContent = '1';
+                    console.log('Streak started');
+                });
+            }
+        }).catch(error => {
+            console.error('Error updating streak:', error);
+        });
+    }
+
+    function loadWeeklySummary(userId) {
+        db.collection('summaries').doc(userId).get().then(doc => {
+            if (doc.exists) {
+                const summaryData = doc.data();
+                weeklySummary.textContent = `Completed ${summaryData.completed} challenges this week`;
+            } else {
+                weeklySummary.textContent = 'No challenges completed this week';
+            }
+        }).catch(error => {
+            console.error('Error fetching summary data:', error);
+        });
+    }
+
+    function loadBadges(userId) {
+        db.collection('badges').doc(userId).get().then(doc => {
+            if (doc.exists) {
+                const badges = doc.data().badges;
+                badges.forEach(badge => {
+                    const badgeElement = document.createElement('div');
+                    badgeElement.classList.add('badge');
+                    badgeElement.textContent = badge.name;
+                    badgeContainer.appendChild(badgeElement);
+                });
+            } else {
+                badgeContainer.textContent = 'No badges earned';
+            }
+        }).catch(error => {
+            console.error('Error fetching badges:', error);
+        });
+    }
+
+    preferencesForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const notification = preferencesForm.notification.checked;
+        const darkMode = preferencesForm.dark-mode.checked;
+        savePreferences(auth.currentUser.uid, { notification, darkMode });
+    });
+
+    function loadPreferences(userId) {
+        db.collection('preferences').doc(userId).get().then(doc => {
+            if (doc.exists) {
+                const preferences = doc.data();
+                preferencesForm.notification.checked = preferences.notification;
+                preferencesForm.dark-mode.checked = preferences.darkMode;
+            } else {
+                console.log('No preferences data found');
+            }
+        }).catch(error => {
+            console.error('Error fetching preferences data:', error);
+        });
+    }
+
+    function savePreferences(userId, preferences) {
+        db.collection('preferences').doc(userId).set(preferences).then(() => {
+            console.log('Preferences saved');
+        }).catch(error => {
+            console.error('Error saving preferences:', error);
         });
     }
 
