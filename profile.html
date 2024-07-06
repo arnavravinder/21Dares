@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>21Dares - Profile</title>
+    <link rel="stylesheet" href="profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+</head>
+<body>
+    <header>
+        <h1>21Dares</h1>
+        <button id="logout-button">Logout</button>
+    </header>
+    <main>
+        <section id="profile" data-aos="fade-up">
+            <h2>User Profile</h2>
+            <div id="user-info">
+                <p><strong>Email:</strong> <span id="user-email"></span></p>
+                <p><strong>Status:</strong> <span id="user-status"></span></p>
+            </div>
+        </section>
+    </main>
+    <script src="profile.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+</html>
