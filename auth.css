@@ -74,3 +74,82 @@ input[type="password"]:focus {
     outline: none;
     box-shadow: 0 0 8px rgba(102, 168, 15, 0.6);
 }
+
+main {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background-color: #333;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+input[type="email"],
+input[type="password"],
+button[type="submit"] {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+button[type="submit"] {
+    background-color: #66A80F;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #4c8037;
+}
+
+p {
+    margin-top: 0.5rem;
+    color: #fff;
+}
+
+a {
+    color: #66A80F;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+input[type="email"],
+input[type="password"] {
+    background-color: #444;
+    color: #fff;
+}
+
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
+    color: #ccc;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: #66A80F;
+    box-shadow: 0 0 5px rgba(102, 168, 15, 0.5);
+}

@@ -77,55 +77,61 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function addFriend(userId, friendEmail) {
         db.collection('users').where('email', '==', friendEmail).get().then(snapshot => {
-            if (!snapshot.empty) {
-                const friendId = snapshot.docs[0].id;
-                db.collection('friends').doc(userId).collection('list').doc(friendId).set({ email: friendEmail }).then(() => {
-                    const friendElement = document.createElement('div');
-                    friendElement.classList.add('friend');
-                    friendElement.textContent = friendEmail;
-                    friendContainer.appendChild(friendElement);
-                    addFriendForm.reset();
-                }).catch(error => {
-                    console.error('Error adding friend:', error);
-                });
-            } else {
-                console.error('No user found with that email');
+            if (snapshot.empty) {
+                console.error('No matching documents.');
+                return;
             }
+
+            snapshot.forEach(doc => {
+                const friendData = doc.data();
+                const friendId = doc.id;
+                db.collection('friends').doc(userId).collection('list').doc(friendId).set(friendData)
+                    .then(() => {
+                        console.log('Friend added successfully.');
+                        const friendElement = document.createElement('div');
+                        friendElement.classList.add('friend');
+                        friendElement.textContent = friendData.email;
+                        friendContainer.appendChild(friendElement);
+                    })
+                    .catch(error => {
+                        console.error('Error adding friend:', error);
+                    });
+            });
         }).catch(error => {
             console.error('Error finding user:', error);
         });
     }
 
-    function loadMessages(userId) {
-        db.collection('messages').doc(userId).collection('chats').orderBy('timestamp').onSnapshot(snapshot => {
-            messageContainer.innerHTML = '';
-            snapshot.forEach(doc => {
-                const message = doc.data();
+    function sendMessage(userId, messageText) {
+        const messageData = {
+            senderId: userId,
+            text: messageText,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        db.collection('messages').doc(userId).collection('list').add(messageData)
+            .then(() => {
+                console.log('Message sent successfully.');
                 const messageElement = document.createElement('div');
                 messageElement.classList.add('message');
-                messageElement.textContent = message.text;
+                messageElement.textContent = messageText;
                 messageContainer.appendChild(messageElement);
+                sendMessageForm.reset();
+            })
+            .catch(error => {
+                console.error('Error sending message:', error);
             });
-        });
-    }
-
-    function sendMessage(userId, messageText) {
-        const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-        const messageData = { text: messageText, timestamp: timestamp };
-        db.collection('messages').doc(userId).collection('chats').add(messageData).then(() => {
-            sendMessageForm.reset();
-        }).catch(error => {
-            console.error('Error sending message:', error);
-        });
     }
 
     function loadChallenges(userId) {
-        db.collection('challenges').doc(userId).collection('list').get().then(snapshot => {
+        const challengeRef = db.collection('challenges').where('userId', '==', userId);
+        challengeRef.get().then(snapshot => {
             snapshot.forEach(doc => {
                 const challenge = doc.data();
-                const challengeItem = document.createElement('li');
-                challengeItem.textContent = challenge.name;
-                challengeList.appendChild(challengeItem);
+                const challengeElement = document.createElement('div');
+                challengeElement.classList.add('challenge');
+                challengeElement.textContent = challenge.title;
+                challengeList.appendChild(challengeElement);
             });
         }).catch(error => {
             console.error('Error fetching challenges:', error);
@@ -133,18 +139,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function loadStreak(userId) {
-        db.collection('streaks').doc(userId).get().then(doc => {
+        db.collection('users').doc(userId).get().then(doc => {
             if (doc.exists) {
-                const streakData = doc.data();
-                dailyStreak.textContent = streakData.days;
+                const userData = doc.data();
+                dailyStreak.textContent = userData.streak || '0';
             } else {
-                const streakData = { days: 1, lastCompleted: firebase.firestore.FieldValue.serverTimestamp() };
-                db.collection('streaks').doc(userId).set(streakData).then(() => {
-                    dailyStreak.textContent = '1';
-                });
+                console.error('No such document!');
             }
         }).catch(error => {
-            console.error('Error updating streak:', error);
+            console.error('Error fetching streak:', error);
         });
     }
 
@@ -152,66 +155,55 @@ document.addEventListener('DOMContentLoaded', function () {
         db.collection('summaries').doc(userId).get().then(doc => {
             if (doc.exists) {
                 const summaryData = doc.data();
-                weeklySummary.textContent = `Completed ${summaryData.completed} challenges this week`;
+                weeklySummary.textContent = summaryData.summary || '';
             } else {
-                weeklySummary.textContent = 'No challenges completed this week';
+                console.error('No such document!');
             }
         }).catch(error => {
-            console.error('Error fetching summary data:', error);
+            console.error('Error fetching summary:', error);
         });
     }
 
     function loadBadges(userId) {
-        db.collection('badges').doc(userId).get().then(doc => {
-            if (doc.exists) {
-                const badges = doc.data().badges;
-                badges.forEach(badge => {
-                    const badgeElement = document.createElement('div');
-                    badgeElement.classList.add('badge');
-                    badgeElement.textContent = badge.name;
-                    badgeContainer.appendChild(badgeElement);
-                });
-            } else {
-                badgeContainer.textContent = 'No badges earned';
-            }
+        const badgesRef = db.collection('badges').where('userId', '==', userId);
+        badgesRef.get().then(snapshot => {
+            snapshot.forEach(doc => {
+                const badge = doc.data();
+                const badgeElement = document.createElement('div');
+                badgeElement.classList.add('badge');
+                badgeElement.textContent = badge.title;
+                badgeContainer.appendChild(badgeElement);
+            });
         }).catch(error => {
             console.error('Error fetching badges:', error);
         });
     }
 
-    preferencesForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const notification = preferencesForm.notification.checked;
-        const darkMode = preferencesForm['dark-mode'].checked;
-        savePreferences(auth.currentUser.uid, { notification, darkMode });
-    });
-
     function loadPreferences(userId) {
         db.collection('preferences').doc(userId).get().then(doc => {
             if (doc.exists) {
-                const preferences = doc.data();
-                preferencesForm.notification.checked = preferences.notification;
-                preferencesForm['dark-mode'].checked = preferences.darkMode;
+                const preferencesData = doc.data();
+                notification.checked = preferencesData.notification || false;
+                darkMode.checked = preferencesData.darkMode || false;
             } else {
-                console.log('No preferences data found');
+                console.error('No such document!');
             }
         }).catch(error => {
-            console.error('Error fetching preferences data:', error);
+            console.error('Error fetching preferences:', error);
         });
     }
 
-    function savePreferences(userId, preferences) {
-        db.collection('preferences').doc(userId).set(preferences).then(() => {
-            console.log('Preferences saved');
+    function loadMessages(userId) {
+        db.collection('messages').doc(userId).collection('list').orderBy('timestamp', 'desc').limit(10).get().then(snapshot => {
+            snapshot.forEach(doc => {
+                const message = doc.data();
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.textContent = message.text;
+                messageContainer.appendChild(messageElement);
+            });
         }).catch(error => {
-            console.error('Error saving preferences:', error);
+            console.error('Error fetching messages:', error);
         });
     }
-
-    VanillaTilt.init(document.querySelectorAll('#logout-button'), {
-        max: 25,
-        speed: 400,
-        glare: true,
-        'max-glare': 0.4,
-    });
 });
