@@ -5,8 +5,8 @@ let transporter = nodemailer.createTransport({
     port: 587, 
     secure: false, // Set to true if you're using SSL/TLS
     auth: {
-        user: 'your-email@example.com', /
-        pass: 'your-password' 
+        user: 'your-email@example.com', 
+        pass: 'your-password'
 });
 
 let mailOptions = {
