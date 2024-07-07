@@ -90,3 +90,34 @@ document.addEventListener('DOMContentLoaded', () => {
         speed: 400
     });
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const notificationsList = document.getElementById('notifications-list');
+
+    const mockNotifications = [
+        { message: 'You have completed a new challenge!', timestamp: '2024-07-15 10:30:00' },
+        { message: 'New message received.', timestamp: '2024-07-14 15:20:00' },
+    ];
+
+    function renderNotifications() {
+        notificationsList.innerHTML = '';
+
+        mockNotifications.forEach(notification => {
+            const listItem = document.createElement('li');
+            listItem.classList.add('notification');
+            listItem.innerHTML = `
+                <div class="message">${notification.message}</div>
+                <div class="timestamp">${formatTimestamp(notification.timestamp)}</div>
+            `;
+            notificationsList.appendChild(listItem);
+        });
+    }
+
+    function formatTimestamp(timestamp) {
+        const date = new Date(timestamp);
+        return date.toLocaleString();
+    }
+
+    renderNotifications();
+});
