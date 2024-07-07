@@ -24,6 +24,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const addFriendForm = document.getElementById('add-friend-form');
     const sendMessageForm = document.getElementById('send-message-form');
     const messageContainer = document.getElementById('message-container');
+    const challengeDetails = document.getElementById('challenge-details');
+    const badgeNotifications = document.getElementById('badge-notifications');
 
     auth.onAuthStateChanged(user => {
         if (user) {
@@ -131,6 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const challengeElement = document.createElement('div');
                 challengeElement.classList.add('challenge');
                 challengeElement.textContent = challenge.title;
+                challengeElement.addEventListener('click', () => loadChallengeDetails(challenge));
                 challengeList.appendChild(challengeElement);
             });
         }).catch(error => {
@@ -138,11 +141,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function loadChallengeDetails(challenge) {
+        challengeDetails.innerHTML = `
+            <div class="challenge-detail">
+                <div class="title">${challenge.title}</div>
+                <div class="description">${challenge.description}</div>
+                <div class="progress">
+                    <span>Progress: ${challenge.progress}%</span>
+                    <div class="progress-bar" style="width: ${challenge.progress}%"></div>
+                </div>
+            </div>
+        `;
+    }
+
     function loadStreak(userId) {
         db.collection('users').doc(userId).get().then(doc => {
             if (doc.exists) {
                 const userData = doc.data();
                 dailyStreak.textContent = userData.streak || '0';
+                if (userData.streak > 0) {
+                    dailyStreak.classList.add('active');
+                }
             } else {
                 console.error('No such document!');
             }
@@ -172,6 +191,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const badgeElement = document.createElement('div');
                 badgeElement.classList.add('badge');
                 badgeElement.textContent = badge.title;
+                badgeElement.addEventListener('click', () => showBadgeNotification(badge));
                 badgeContainer.appendChild(badgeElement);
             });
         }).catch(error => {
@@ -179,12 +199,21 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function showBadgeNotification(badge) {
+        badgeNotifications.innerHTML = `
+            <div class="badge-notification">
+                <div class="badge-title">${badge.title}</div>
+                <div class="badge-description">${badge.description}</div>
+            </div>
+        `;
+    }
+
     function loadPreferences(userId) {
         db.collection('preferences').doc(userId).get().then(doc => {
             if (doc.exists) {
                 const preferencesData = doc.data();
-                notification.checked = preferencesData.notification || false;
-                darkMode.checked = preferencesData.darkMode || false;
+                document.getElementById('notification').checked = preferencesData.notification || false;
+                document.getElementById('dark-mode').checked = preferencesData.darkMode || false;
             } else {
                 console.error('No such document!');
             }
